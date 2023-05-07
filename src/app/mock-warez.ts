@@ -1,6 +1,6 @@
-import { Ware } from './ware';
+import { Hero } from './hero';
 
-export const WAREZ: Ware[] = [
+export const WAREZ: Hero[] = [
   {
     id: 12,
     name: 'Parrot Architect amd64',

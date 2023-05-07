@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Ware } from '../ware';
-import { WareService } from '../ware.service';
+import { Hero } from '../hero';
+import { HeroService } from '../hero.service';
 
 @Component({
-  selector: 'app-warez',
-  templateUrl: './warez.component.html',
-  styleUrls: ['./warez.component.css'],
+  selector: 'app-heroes',
+  templateUrl: './heroes.component.html',
+  styleUrls: ['./heroes.component.css'],
 })
-export class WarezComponent implements OnInit {
-  warez: Ware[] = [];
+export class HeroesComponent implements OnInit {
+  heroes: Hero[] = [];
 
-  constructor(private wareService: WareService) {}
+  constructor(private heroService: HeroService) {}
 
   ngOnInit(): void {
-    this.getWarez();
+    this.getHeroes();
   }
 
-  getWarez(): void {
-    this.wareService.getWarez().subscribe((warez) => (this.warez = warez));
+  getHeroes(): void {
+    this.heroService.getHeroes().subscribe((heroes) => (this.heroes = heroes));
   }
 
   add(name: string, magnet: string): void {
@@ -27,14 +27,14 @@ export class WarezComponent implements OnInit {
     if (!name || !magnet) {
       return;
     }
-    this.wareService.addWare({ name, magnet } as Ware).subscribe((ware) => {
-      this.warez.push(ware);
+    this.heroService.addHero({ name, magnet } as Hero).subscribe((hero) => {
+      this.heroes.push(hero);
     });
   }
 
-  delete(ware: Ware): void {
-    this.warez = this.warees.filter((h) => h !== ware);
-    this.wareService.deleteWare(ware.id).subscribe();
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter((h) => h !== hero);
+    this.heroService.deleteHero(hero.id).subscribe();
   }
 }
 

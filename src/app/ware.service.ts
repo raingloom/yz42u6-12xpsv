@@ -4,12 +4,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Ware } from './ware';
+import { Hero } from './hero';
 import { MessageService } from './message.service';
 
 @Injectable({ providedIn: 'root' })
-export class WareService {
-  private warezUrl = 'api/warees'; // URL to web api
+export class HeroService {
+  private heroesUrl = 'api/heroes'; // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -20,77 +20,77 @@ export class WareService {
     private messageService: MessageService
   ) {}
 
-  /** GET warez from the server */
-  getWarez(): Observable<Ware[]> {
-    return this.http.get<Ware[]>(this.warezUrl).pipe(
-      tap((_) => this.log('fetched warez')),
-      catchError(this.handleError<Ware[]>('getWarez', []))
+  /** GET heroes from the server */
+  getHeroes(): Observable<Hero[]> {
+    return this.http.get<Hero[]>(this.heroesUrl).pipe(
+      tap((_) => this.log('fetched heroes')),
+      catchError(this.handleError<Hero[]>('getHeroes', []))
     );
   }
 
-  /** GET ware by id. Return `undefined` when id not found */
-  getWareNo404<Data>(id: number): Observable<Ware> {
-    const url = `${this.warezUrl}/?id=${id}`;
-    return this.http.get<Ware[]>(url).pipe(
-      map((warez) => warees[0]), // returns a {0|1} element array
+  /** GET hero by id. Return `undefined` when id not found */
+  getHeroNo404<Data>(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/?id=${id}`;
+    return this.http.get<Hero[]>(url).pipe(
+      map((heroes) => heroes[0]), // returns a {0|1} element array
       tap((h) => {
         const outcome = h ? 'fetched' : 'did not find';
-        this.log(`${outcome} ware id=${id}`);
+        this.log(`${outcome} hero id=${id}`);
       }),
-      catchError(this.handleError<Ware>(`getWare id=${id}`))
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
 
-  /** GET ware by id. Will 404 if id not found */
-  getWare(id: number): Observable<Ware> {
-    const url = `${this.warezUrl}/${id}`;
-    return this.http.get<Ware>(url).pipe(
-      tap((_) => this.log(`fetched ware id=${id}`)),
-      catchError(this.handleError<Ware>(`getWare id=${id}`))
+  /** GET hero by id. Will 404 if id not found */
+  getHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
+    return this.http.get<Hero>(url).pipe(
+      tap((_) => this.log(`fetched hero id=${id}`)),
+      catchError(this.handleError<Hero>(`getHero id=${id}`))
     );
   }
 
-  /* GET warez whose name contains search term */
-  searchWarez(term: string): Observable<Ware[]> {
+  /* GET heroes whose name contains search term */
+  searchHeroes(term: string): Observable<Hero[]> {
     if (!term.trim()) {
-      // if not search term, return empty ware array.
+      // if not search term, return empty hero array.
       return of([]);
     }
-    return this.http.get<Ware[]>(`${this.warezUrl}/?name=${term}`).pipe(
+    return this.http.get<Hero[]>(`${this.heroesUrl}/?name=${term}`).pipe(
       tap((x) =>
         x.length
-          ? this.log(`found warez matching "${term}"`)
-          : this.log(`no warez matching "${term}"`)
+          ? this.log(`found heroes matching "${term}"`)
+          : this.log(`no heroes matching "${term}"`)
       ),
-      catchError(this.handleError<Ware[]>('searchWarez', []))
+      catchError(this.handleError<Hero[]>('searchHeroes', []))
     );
   }
 
   //////// Save methods //////////
 
-  /** POST: add a new ware to the server */
-  addWare(ware: Ware): Observable<Ware> {
-    return this.http.post<Ware>(this.warezUrl, ware, this.httpOptions).pipe(
-      tap((newWare: Ware) => this.log(`added ware w/ id=${newWare.id}`)),
-      catchError(this.handleError<Ware>('addWare'))
+  /** POST: add a new hero to the server */
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+      catchError(this.handleError<Hero>('addHero'))
     );
   }
 
-  /** DELETE: delete the ware from the server */
-  deleteWare(id: number): Observable<Ware> {
-    const url = `${this.warezUrl}/${id}`;
+  /** DELETE: delete the hero from the server */
+  deleteHero(id: number): Observable<Hero> {
+    const url = `${this.heroesUrl}/${id}`;
 
-    return this.http.delete<Ware>(url, this.httpOptions).pipe(
-      tap((_) => this.log(`deleted ware id=${id}`)),
-      catchError(this.handleError<Ware>('deleteWare'))
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap((_) => this.log(`deleted hero id=${id}`)),
+      catchError(this.handleError<Hero>('deleteHero'))
     );
   }
 
-  /** PUT: update the ware on the server */
-  updateWare(ware: Ware): Observable<any> {
-    return this.http.put(this.warezUrl, ware, this.httpOptions).pipe(
-      tap((_) => this.log(`updated ware id=${ware.id}`)),
-      catchError(this.handleError<any>('updateWare'))
+  /** PUT: update the hero on the server */
+  updateHero(hero: Hero): Observable<any> {
+    return this.http.put(this.heroesUrl, hero, this.httpOptions).pipe(
+      tap((_) => this.log(`updated hero id=${hero.id}`)),
+      catchError(this.handleError<any>('updateHero'))
     );
   }
 
@@ -114,8 +114,8 @@ export class WareService {
     };
   }
 
-  /** Log a WareService message with the MessageService */
+  /** Log a HeroService message with the MessageService */
   private log(message: string) {
-    this.messageService.add(`WareService: ${message}`);
+    this.messageService.add(`HeroService: ${message}`);
   }
 }
