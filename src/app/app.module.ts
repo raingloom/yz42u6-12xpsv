@@ -3,9 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
-
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -15,9 +12,10 @@ import { WarezComponent } from './warez/warez.component';
 import { WareSearchComponent } from './ware-search/ware-search.component';
 import { MessagesComponent } from './messages/messages.component';
 import { LeetPipe } from './leet.pipe';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { PrefixPipe } from './prefix.pipe';
 
 @NgModule({
   imports: [
@@ -25,15 +23,8 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    ),
-      provideFirebaseApp(() => initializeApp(environment.firebase)),
-      provideFirestore(() => getFirestore())
+  provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideFirestore(() => getFirestore())
   ],
   declarations: [
     AppComponent,
@@ -42,11 +33,12 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
     WareDetailComponent,
     MessagesComponent,
     WareSearchComponent,
-    LeetPipe
+    LeetPipe,
+    PrefixPipe
   ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
 
 
 /*

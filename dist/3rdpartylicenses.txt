@@ -52,9 +52,6 @@ Apache-2.0
 @firebase/webchannel-wrapper
 Apache-2.0
 
-angular-in-memory-web-api
-MIT
-
 firebase/analytics
 
 firebase/app

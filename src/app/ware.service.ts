@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Firestore, collection, collectionData, addDoc, CollectionReference, collectionChanges, doc, getDoc, getDocs, updateDoc, deleteDoc } from '@angular/fire/firestore';
+
+import { Observable, of, from } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Ware } from './ware';
+import { Ware, fromSnapshot } from './ware';
 import { MessageService } from './message.service';
 
 @Injectable({ providedIn: 'root' })
@@ -17,81 +19,70 @@ export class WareService {
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private firestore: Firestore
   ) {}
+
+  warezCollection() {
+    return collection(this.firestore, 'warez') as CollectionReference<Ware>;
+  }
+
+  warezData(): Observable<Ware[]> {
+    return from(getDocs(this.warezCollection())
+      .then(snaps=>
+        snaps.docs.map(fromSnapshot)));
+  }
 
   /** GET warez from the server */
   getWarez(): Observable<Ware[]> {
-    return this.http.get<Ware[]>(this.warezUrl).pipe(
+    return this.warezData().pipe(
       tap((_) => this.log('fetched warez')),
       catchError(this.handleError<Ware[]>('getWarez', []))
     );
   }
 
-  /** GET ware by id. Return `undefined` when id not found */
-  getWareNo404<Data>(id: number): Observable<Ware> {
-    const url = `${this.warezUrl}/?id=${id}`;
-    return this.http.get<Ware[]>(url).pipe(
-      map((warez) => warez[0]), // returns a {0|1} element array
-      tap((h) => {
-        const outcome = h ? 'fetched' : 'did not find';
-        this.log(`${outcome} ware id=${id}`);
-      }),
-      catchError(this.handleError<Ware>(`getWare id=${id}`))
-    );
-  }
-
-  /** GET ware by id. Will 404 if id not found */
-  getWare(id: number): Observable<Ware> {
-    const url = `${this.warezUrl}/${id}`;
-    return this.http.get<Ware>(url).pipe(
-      tap((_) => this.log(`fetched ware id=${id}`)),
-      catchError(this.handleError<Ware>(`getWare id=${id}`))
-    );
+  getWare(id: string): Observable<Ware> {
+    const wareRef = doc<Ware>(this.warezCollection(), id);
+    const ware = getDoc(wareRef).then(fromSnapshot);
+    return from(ware);
   }
 
   /* GET warez whose name contains search term */
   searchWarez(term: string): Observable<Ware[]> {
+    term = term.toLowerCase()
     if (!term.trim()) {
       // if not search term, return empty ware array.
       return of([]);
     }
-    return this.http.get<Ware[]>(`${this.warezUrl}/?name=${term}`).pipe(
-      tap((x) =>
-        x.length
-          ? this.log(`found warez matching "${term}"`)
-          : this.log(`no warez matching "${term}"`)
-      ),
-      catchError(this.handleError<Ware[]>('searchWarez', []))
+    return this.getWarez()
+      .pipe(
+        map(warez=>warez.filter(ware=>ware.name.toLowerCase().includes(term))))
+      .pipe(
+        tap((x) =>
+          x.length
+            ? this.log(`found warez matching "${term}"`)
+            : this.log(`no warez matching "${term}"`)
+        )
     );
   }
 
   //////// Save methods //////////
 
   /** POST: add a new ware to the server */
-  addWare(ware: Ware): Observable<Ware> {
-    return this.http.post<Ware>(this.warezUrl, ware, this.httpOptions).pipe(
-      tap((newWare: Ware) => this.log(`added ware w/ id=${newWare.id}`)),
-      catchError(this.handleError<Ware>('addWare'))
-    );
+  addWare(ware: Ware) {
+    return from(addDoc<Ware>(this.warezCollection(), ware).then(_=>ware));
   }
 
   /** DELETE: delete the ware from the server */
-  deleteWare(id: number): Observable<Ware> {
-    const url = `${this.warezUrl}/${id}`;
-
-    return this.http.delete<Ware>(url, this.httpOptions).pipe(
-      tap((_) => this.log(`deleted ware id=${id}`)),
-      catchError(this.handleError<Ware>('deleteWare'))
-    );
+  deleteWare(id: string): Promise<void> {
+    const ref = doc<Ware>(this.warezCollection(), id);
+    return deleteDoc(ref);
   }
 
   /** PUT: update the ware on the server */
-  updateWare(ware: Ware): Observable<any> {
-    return this.http.put(this.warezUrl, ware, this.httpOptions).pipe(
-      tap((_) => this.log(`updated ware id=${ware.id}`)),
-      catchError(this.handleError<any>('updateWare'))
-    );
+  updateWare(ware: Ware): Promise<void> {
+    const ref = doc<Ware>(this.warezCollection(), ware.id);
+    return updateDoc(ref, {name: ware.name, description: ware.description, magnet: ware.magnet});
   }
 
   /**

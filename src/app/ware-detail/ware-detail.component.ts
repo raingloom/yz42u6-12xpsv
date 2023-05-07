@@ -24,7 +24,7 @@ export class WareDetailComponent implements OnInit {
   }
 
   getWare(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
+    const id = this.route.snapshot.paramMap.get('id')!;
     this.wareService.getWare(id)
       .subscribe(ware => this.ware = ware);
   }
@@ -36,7 +36,7 @@ export class WareDetailComponent implements OnInit {
   save(): void {
     if (this.ware) {
       this.wareService.updateWare(this.ware)
-        .subscribe(() => this.goBack());
+        .then(() => this.goBack());
     }
   }
 }

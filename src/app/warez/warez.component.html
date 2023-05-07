@@ -5,13 +5,15 @@
   <input id="new-ware" #wareName />
   <label for="new-magnet">Magnet link:</label>
   <input id="new-magnet" #torrentMagnet />
+  <label for="new-description">Description:</label>
+  <input id="new-description" #torrentDescription/>
 
   <!-- (click) passes input value to add() and then clears the input -->
   <button
     type="button"
     class="add-button"
     (click)="
-      add(wareName.value, torrentMagnet.value);
+      add(wareName.value, torrentMagnet.value, torrentDescription.value);
       wareName.value = '';
       torrentMagnet.value = ''
     "
@@ -22,8 +24,7 @@
 
 <ul class="warez">
   <li *ngFor="let torrent of warez">
-    <a routerLink="/detail/{{ torrent.id }}">
-      <span class="badge">{{ torrent.id }}</span> {{ torrent.name }}
+    <a routerLink="/detail/{{ torrent.id }}">{{ torrent.name }}
     </a>
     <button
       type="button"

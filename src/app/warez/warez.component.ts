@@ -21,25 +21,18 @@ export class WarezComponent implements OnInit {
     this.wareService.getWarez().subscribe((warez) => (this.warez = warez));
   }
 
-  add(name: string, magnet: string): void {
+  add(name: string, magnet: string, description: string): void {
     name = name.trim();
     magnet = magnet.trim();
     if (!name || !magnet) {
       return;
     }
-    this.wareService.addWare({ name, magnet } as Ware).subscribe((ware) => {
+    this.wareService.addWare({ name, magnet, description } as Ware).subscribe((ware) => {
       this.warez.push(ware);
     });
   }
 
   delete(ware: Ware): void {
-    this.warez = this.warez.filter((h) => h !== ware);
-    this.wareService.deleteWare(ware.id).subscribe();
+    this.wareService.deleteWare(ware.id).then();
   }
 }
-
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/

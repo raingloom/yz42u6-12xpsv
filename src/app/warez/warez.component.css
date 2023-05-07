@@ -3,7 +3,6 @@
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
 }
 
 input {
@@ -16,7 +15,6 @@ input {
 
 .warez li {
   position: relative;
-  cursor: pointer;
 }
 
 .warez li:hover {
@@ -29,7 +27,6 @@ input {
   background-color: #EEE;
   margin: .5em;
   padding: .3em 0;
-  height: 1.6em;
   border-radius: 4px;
   display: block;
   width: 100%;
@@ -46,6 +43,8 @@ input {
 }
 
 .warez .badge {
+    max-width: 3em;
+    overflow: hidden;
   display: inline-block;
   font-size: small;
   color: white;
@@ -75,7 +74,7 @@ input {
 
 button.delete {
   position: absolute;
-  left: 210px;
+    right: 0;
   top: 5px;
   background-color: white;
   color:  #525252;
