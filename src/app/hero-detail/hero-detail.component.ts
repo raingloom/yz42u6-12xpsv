@@ -2,31 +2,31 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
+import { Ware } from '../ware';
+import { WareService } from '../ware.service';
 
 @Component({
-  selector: 'app-hero-detail',
-  templateUrl: './hero-detail.component.html',
-  styleUrls: [ './hero-detail.component.css' ]
+  selector: 'app-ware-detail',
+  templateUrl: './ware-detail.component.html',
+  styleUrls: [ './ware-detail.component.css' ]
 })
-export class HeroDetailComponent implements OnInit {
-  hero: Hero | undefined;
+export class WareDetailComponent implements OnInit {
+  ware: Ware | undefined;
 
   constructor(
     private route: ActivatedRoute,
-    private heroService: HeroService,
+    private wareService: WareService,
     private location: Location
   ) {}
 
   ngOnInit(): void {
-    this.getHero();
+    this.getWare();
   }
 
-  getHero(): void {
+  getWare(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.heroService.getHero(id)
-      .subscribe(hero => this.hero = hero);
+    this.wareService.getWare(id)
+      .subscribe(ware => this.ware = ware);
   }
 
   goBack(): void {
@@ -34,8 +34,8 @@ export class HeroDetailComponent implements OnInit {
   }
 
   save(): void {
-    if (this.hero) {
-      this.heroService.updateHero(this.hero)
+    if (this.ware) {
+      this.wareService.updateWare(this.ware)
         .subscribe(() => this.goBack());
     }
   }

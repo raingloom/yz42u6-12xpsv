@@ -1,4 +1,4 @@
-export interface Hero {
+export interface Ware {
   id: number;
   name: string;
   magnet: string;

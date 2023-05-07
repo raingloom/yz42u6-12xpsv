@@ -1,8 +1,8 @@
 <h2>Best Warez</h2>
-<div class="heroes-menu">
-  <a *ngFor="let torrent of heroes" routerLink="/detail/{{ torrent.id }}">
+<div class="warez-menu">
+  <a *ngFor="let torrent of warez" routerLink="/detail/{{ torrent.id }}">
     {{ torrent.name }}
   </a>
 </div>
 
-<app-hero-search></app-hero-search>
+<app-ware-search></app-ware-search>
