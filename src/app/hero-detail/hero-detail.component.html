@@ -1,0 +1,18 @@
+<div *ngIf="hero">
+  <h2>{{ hero.name | uppercase }} Details</h2>
+  <div><span>id: </span>{{ hero.id }}</div>
+  <div>
+    <label for="hero-name">Name: </label>
+    <input id="hero-name" [(ngModel)]="hero.name" placeholder="Torrent name" />
+  </div>
+  <div>
+    <label for="torrent-magnet">Magnet URL:</label>
+    <input id="torrent-magnet" [(ngModel)]="hero.magnet" />
+  </div>
+  <div>
+    <label for="torrent-description">Description:</label>
+    <input id="torrent-description" [(ngModel)]="hero.description" />
+  </div>
+  <button type="button" (click)="goBack()">go back</button>
+  <button type="button" (click)="save()">save</button>
+</div>
