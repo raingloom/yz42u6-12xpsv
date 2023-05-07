@@ -15,6 +15,9 @@ import { WarezComponent } from './warez/warez.component';
 import { WareSearchComponent } from './ware-search/ware-search.component';
 import { MessagesComponent } from './messages/messages.component';
 import { LeetPipe } from './leet.pipe';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { environment } from '../environments/environment';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 @NgModule({
   imports: [
@@ -28,7 +31,9 @@ import { LeetPipe } from './leet.pipe';
     // Remove it when a real server is ready to receive requests.
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
-    )
+    ),
+      provideFirebaseApp(() => initializeApp(environment.firebase)),
+      provideFirestore(() => getFirestore())
   ],
   declarations: [
     AppComponent,

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "hotwarez68": {
+      "hosting": {
+        "angular.io-example": [
+          "hotwarez68"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "hotwarez68"
+  }
+}
