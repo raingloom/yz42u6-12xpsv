@@ -14,6 +14,7 @@ import { WareDetailComponent } from './ware-detail/ware-detail.component';
 import { WarezComponent } from './warez/warez.component';
 import { WareSearchComponent } from './ware-search/ware-search.component';
 import { MessagesComponent } from './messages/messages.component';
+import { LeetPipe } from './leet.pipe';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { MessagesComponent } from './messages/messages.component';
     WarezComponent,
     WareDetailComponent,
     MessagesComponent,
-    WareSearchComponent
+    WareSearchComponent,
+    LeetPipe
   ],
   bootstrap: [ AppComponent ]
 })
