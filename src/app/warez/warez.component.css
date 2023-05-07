@@ -1,5 +1,5 @@
-/* HeroesComponent's private CSS styles */
-.heroes {
+/* WarezComponent's private CSS styles */
+.warez {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
@@ -14,16 +14,16 @@ input {
   box-sizing: border-box;
 }
 
-.heroes li {
+.warez li {
   position: relative;
   cursor: pointer;
 }
 
-.heroes li:hover {
+.warez li:hover {
   left: .1em;
 }
 
-.heroes a {
+.warez a {
   color: #333;
   text-decoration: none;
   background-color: #EEE;
@@ -35,17 +35,17 @@ input {
   width: 100%;
 }
 
-.heroes a:hover {
+.warez a:hover {
   color: #2c3a41;
   background-color: #e6e6e6;
 }
 
-.heroes a:active {
+.warez a:active {
   background-color: #525252;
   color: #fafafa;
 }
 
-.heroes .badge {
+.warez .badge {
   display: inline-block;
   font-size: small;
   color: white;

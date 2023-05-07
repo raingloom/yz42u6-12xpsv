@@ -1,8 +1,8 @@
 <h2>I Haz Warez</h2>
 
 <div>
-  <label for="new-hero">Ware: </label>
-  <input id="new-hero" #heroName />
+  <label for="new-ware">Ware: </label>
+  <input id="new-ware" #wareName />
   <label for="new-magnet">Magnet link:</label>
   <input id="new-magnet" #torrentMagnet />
 
@@ -11,8 +11,8 @@
     type="button"
     class="add-button"
     (click)="
-      add(heroName.value, torrentMagnet.value);
-      heroName.value = '';
+      add(wareName.value, torrentMagnet.value);
+      wareName.value = '';
       torrentMagnet.value = ''
     "
   >
@@ -20,8 +20,8 @@
   </button>
 </div>
 
-<ul class="heroes">
-  <li *ngFor="let torrent of heroes">
+<ul class="warez">
+  <li *ngFor="let torrent of warez">
     <a routerLink="/detail/{{ torrent.id }}">
       <span class="badge">{{ torrent.id }}</span> {{ torrent.name }}
     </a>

@@ -3,7 +3,7 @@
   <input #searchBox id="search-box" (input)="search(searchBox.value)" />
 
   <ul class="search-result">
-    <li *ngFor="let torrent of heroes$ | async">
+    <li *ngFor="let torrent of warez$ | async">
       <a routerLink="/detail/{{ torrent.id }}">
         {{ torrent.name }}
       </a>
